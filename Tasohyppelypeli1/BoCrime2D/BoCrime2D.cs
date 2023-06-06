@@ -16,7 +16,7 @@ public class Tasohyppelypeli1 : PhysicsGame
     private PlatformCharacter pelaaja1;
 
     private Image pelaajanKuva = LoadImage("norsu.png");
-    private Image tahtiKuva = LoadImage("tahti.png");
+    private Image tahtiKuva = LoadImage("gani.png");
 
     private SoundEffect maaliAani = LoadSoundEffect("maali.wav");
 
@@ -105,7 +105,7 @@ public class Tasohyppelypeli1 : PhysicsGame
     private void TormaaTahteen(PhysicsObject hahmo, PhysicsObject tahti)
     {
         maaliAani.Play();
-        MessageDisplay.Add("Keräsit tähden!");
+        MessageDisplay.Add("Keräsit aseen!");
         tahti.Destroy();
     }
 }

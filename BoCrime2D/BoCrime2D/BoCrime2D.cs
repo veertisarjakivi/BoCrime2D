@@ -12,40 +12,10 @@ public class BoCrime2D : PhysicsGame
     private const double NOPEUS = 130;
     private const double HYPPYNOPEUS = 350;
     private const int RUUDUN_KOKO = 40;
-    pelaajan1Ase.Position = pelaaja1.Position + new Vector(pelaaja1.Width / 2, 0);
-   
-    pelaajan1Ase = new AssaultRifle(30, 10);
-    
-    pelaajan1Ase.Ammo.Value = 1000; 
 
 
-    pelaajan1Ase.FireRate = 5;
-
-
-    pelaajan1Ase.ProjectileCollision = AmmusOsui;
-
-
-    pelaajaniAse.Position = pelaaja1.Position;
-
-    pelaaja1.Add(pelaajan1Ase);
     
     
-    pelaaja1.Weapon = new AssaultRifle(30, 10);
-
-
-    pelaaja1.Weapon.Ammo.Value = 1000;
-
-
-    pelaaja1.Weapon.ProjectileCollision = AmmusOsui;
-    
-    //pelaaja1 on PlatformCharacter-tyyppinen
-    pelaaja1.Weapon = new AssaultRifle(30, 10);
-
-//Ammusten määrä aluksi:
-    pelaaja1.Weapon.Ammo.Value = 1000;
-
-//Mitä tapahtuu kun ammus osuu johonkin?
-    pelaaja1.Weapon.ProjectileCollision = AmmusOsui;
 
     private PlatformCharacter pelaaja1;
 
@@ -119,12 +89,12 @@ public class BoCrime2D : PhysicsGame
     void AmmuAseella(AssaultRifle ase)
     {
         PhysicsObject ammus = ase.Shoot();
-
+       
         if (ammus != null)
-        {
+        { ammus.Size = new Vector(6, 4);
             void AmmusOsui(PhysicsObject ammus, PhysicsObject kohde)
             {
-                //ammus.Destroy();
+                
             }
         }
     }
@@ -137,6 +107,18 @@ public class BoCrime2D : PhysicsGame
         pelaaja1.Image = pelaajanKuva;
         AddCollisionHandler(pelaaja1, "tahti", TormaaTahteen);
         Add(pelaaja1);
+
+        pelaajan1Ase = new AssaultRifle(30, 5);
+        pelaajan1Ase.Ammo.Value = 999999999;
+        pelaajan1Ase.FireRate = 3;
+        pelaaja1.Weapon = pelaajan1Ase;
+        pelaaja1.Weapon.ProjectileCollision = AmmusOsui;
+        pelaaja1.Weapon.Position = pelaaja1.Position + new Vector( 2, 6.5);
+        pelaajan1Ase.Power.DefaultValue = 200;
+        pelaaja1.Weapon.Color = Color.Transparent;
+        pelaajan1Ase.Image = null;
+
+
     }
 
     private void LisaaNappaimet()

@@ -58,4 +58,6 @@ C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\obj\Debug\net6.0\BoCrime2D.genr
 C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\massi.png
 C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\boocity.png
 C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\tero-removebg-preview.png
-C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\gta,png.png
+C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\gtaa.png
+C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\gta-v-death-sound-effect-102.wav
+C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\Ctero-removebg-preview.png

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using Jypeli;
 using Jypeli.Assets;
 using Jypeli.Controls;
@@ -10,7 +11,7 @@ namespace BoCrime2D;
 public class BoCrime2D : PhysicsGame
 {
     private const double NOPEUS = 130;
-    private const double HYPPYNOPEUS = 350;
+    private const double HYPPYNOPEUS = 500;
     private const int RUUDUN_KOKO = 40;
 
 
@@ -28,21 +29,43 @@ public class BoCrime2D : PhysicsGame
 
     Image taustaKuva = LoadImage("boocity");
     
-
     public override void Begin()
     {
-        Gravity = new Vector(0, -1000);
+       
 
-        LuoKentta();
-        LisaaNappaimet();
-
-        Camera.Follow(pelaaja1);
-        Camera.ZoomFactor = 0.01 ;
-        Camera.StayInLevel = true;
-
+        alkuvalikko();
+       
         MasterVolume = 0.5;
     }
 
+    private void alkuvalikko()
+    {
+        MultiSelectWindow alkuvalikko = new MultiSelectWindow("Pelin alkuvalikko", "Aloita peli", "Lopeta");
+
+        alkuvalikko.AddItemHandler(0, AloitaPeli);
+        
+        alkuvalikko.AddItemHandler(1, Exit);
+
+        alkuvalikko.Color = Color.White;
+        alkuvalikko.SetButtonColor(Color.Black);
+        alkuvalikko.SetButtonTextColor(Color.White);
+        PushButton[] nappulat = alkuvalikko.Buttons;
+        Level.Height = 600;
+        Level.Background.Image = LoadImage("gta,png");
+        Level.Background.ScaleToLevelByHeight();
+        alkuvalikko.DefaultCancel = 3;
+
+        Add(alkuvalikko);
+        
+    }
+
+    private void AloitaPeli()
+    {
+        LuoKentta();
+        LisaaNappaimet();
+        
+
+    }
     private void LuoKentta()
     {
         TileMap kentta = TileMap.FromLevelAsset("kentta1.txt");
@@ -50,15 +73,17 @@ public class BoCrime2D : PhysicsGame
         kentta.SetTileMethod('*', LisaaTahti);
         kentta.SetTileMethod('N', LisaaPelaaja);
         kentta.Execute(RUUDUN_KOKO, RUUDUN_KOKO);
-        Level.Width = 4000;
+        Level.Width = 2000;
         Level.Height = 250;
         Level.Background.Image = taustaKuva;
         Level.Background.ScaleToLevelByHeight();
         Level.Background.TileToLevel();
         Level.CreateBottomBorder();
-        Level.CreateLeftBorder();
-        Level.CreateRightBorder();
         Level.CreateTopBorder();
+        Camera.Follow(pelaaja1);
+        Camera.ZoomFactor = 0.01 ;
+        Camera.StayInLevel = true;
+        Gravity = new Vector(0, -1000);
 
 
     }
@@ -67,7 +92,7 @@ public class BoCrime2D : PhysicsGame
     {
         PhysicsObject taso = PhysicsObject.CreateStaticObject(leveys, korkeus);
         taso.Position = paikka;
-        taso.Color = Color.Red;
+        taso.Color = Color.DarkGray;
         Add(taso);
     }
 

@@ -33,6 +33,9 @@ public class BoCrime2D : PhysicsGame
     Image taustaKuva = LoadImage("boocity");
     
     SoundEffect kuolema = LoadSoundEffect("gta-v-death-sound-effect-102");
+
+    SoundEffect maaliii = LoadSoundEffect("gta-san-andreas-mission-complete-sound-hq");
+    
     
     DoubleMeter alaspainlaskuri;
     Timer aikalaskuri;
@@ -88,6 +91,7 @@ public class BoCrime2D : PhysicsGame
         kentta.SetTileMethod('-', LisaaTaso);
         kentta.SetTileMethod('*', LisaaTahti);
         kentta.SetTileMethod('N', LisaaPelaaja);
+        kentta.SetTileMethod('X', LisaaMaali);
         kentta.Execute(RUUDUN_KOKO, RUUDUN_KOKO);
         Level.Width = 4950;
         Level.Height = 250;
@@ -105,8 +109,16 @@ public class BoCrime2D : PhysicsGame
 
 
     }
-    
-    
+
+    private void LisaaMaali(Vector paikka, double leveys, double korkeus)
+    {
+        PhysicsObject maali = PhysicsObject.CreateStaticObject(1, 300);
+        maali.Position = paikka;
+        maali.Color = Color.Transparent;
+        Add(maali);
+        maali.Tag = "maali";
+
+    }
 
     private void LisaaTaso(Vector paikka, double leveys, double korkeus)
     {
@@ -131,7 +143,6 @@ public class BoCrime2D : PhysicsGame
         if (kohde.Tag == "tahti")
         {
             kohde.Destroy();
-            MessageDisplay.Add("Enemy killed!");
         }
        ammus.Destroy();
     }
@@ -160,6 +171,7 @@ public class BoCrime2D : PhysicsGame
         pelaaja1.Mass = 10.0;
         pelaaja1.Image = pelaajanKuva;
         AddCollisionHandler(pelaaja1, "tahti", TormaaTahteen);
+        AddCollisionHandler(pelaaja1, "maali", TormaaMaaliin);
         Add(pelaaja1);
 
         pelaajan1Ase = new AssaultRifle(30, 5);
@@ -174,7 +186,20 @@ public class BoCrime2D : PhysicsGame
 
 
     }
-    
+
+    private void TormaaMaaliin(PhysicsObject hahmo, PhysicsObject maali)
+    {
+        aikalaskuri.Stop();
+        aikanaytto.Destroy();
+        pelaaja1.Destroy();
+        maaliii.Play();
+        Label passed = new Label(2000.0, 250.0, "MISSION PASSED");
+        passed.Color = Color.Black;
+        passed.TextColor = Color.Green;
+        passed.Font.Size = 120;
+        Add(passed);
+        
+    }
     void LuoAikalaskuri()
     {
         alaspainlaskuri = new DoubleMeter(40);
@@ -189,6 +214,7 @@ public class BoCrime2D : PhysicsGame
         aikanaytto.BindTo(alaspainlaskuri);
         aikanaytto.X = Screen.Right - 100;
         aikanaytto.Y = Screen.Top - 100;
+        aikanaytto.Font.Size = 120;
         Add(aikanaytto);
     }
 
@@ -200,9 +226,11 @@ public class BoCrime2D : PhysicsGame
         {
             aikalaskuri.Stop();
             pelaaja1.Destroy();
+            kuolema.Play();
             Label tekstikentta = new Label(2000.0, 250.0, "MISSION FAILED");
             tekstikentta.Color = Color.Black;
             tekstikentta.TextColor = Color.Red;
+            tekstikentta.Font.Size = 120;
             Add(tekstikentta);
             
         }
@@ -247,13 +275,14 @@ public class BoCrime2D : PhysicsGame
     {
         kuolema.Play();
         pelaaja1.Destroy();
+        aikalaskuri.Stop();
         aikanaytto.Destroy();
         
-        Label tekstikentta = new Label(2000.0, 250.0, "YOU DIED");
-        tekstikentta.Color = Color.Black;
-        tekstikentta.TextColor = Color.Red;
-        tekstikentta.Font.Size = 120;
-        Add(tekstikentta);
+        Label death = new Label(2000.0, 250.0, "YOU DIED");
+        death.Color = Color.Black;
+        death.TextColor = Color.Red;
+        death.Font.Size = 120;
+        Add(death);
     }
     
 }

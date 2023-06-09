@@ -61,3 +61,5 @@ C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\tero-r
 C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\gtaa.png
 C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\gta-v-death-sound-effect-102.wav
 C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\Ctero-removebg-preview.png
+C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\gta-san-andreas-mission-complete-sound-hq.wav
+C:\MyTemp\vsalmija\BoCrime2D\BoCrime2D\BoCrime2D\bin\Debug\net6.0\Content\bosong.wav

@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Net.Sockets;
 using Jypeli;
 using Jypeli.Assets;
 using Jypeli.Controls;
 using Jypeli.Widgets;
+using SixLabors.ImageSharp;
+using Color = Jypeli.Color;
+using Image = Jypeli.Image;
 
 namespace BoCrime2D;
 
@@ -29,6 +33,10 @@ public class BoCrime2D : PhysicsGame
     Image taustaKuva = LoadImage("boocity");
     
     SoundEffect kuolema = LoadSoundEffect("gta-v-death-sound-effect-102");
+    
+    DoubleMeter alaspainlaskuri;
+    Timer aikalaskuri;
+    private Label aikanaytto;
     
     public override void Begin()
     {
@@ -70,6 +78,9 @@ public class BoCrime2D : PhysicsGame
         LuoKentta();
         LisaaNappaimet();
         Mouse.MouseCursor = MouseCursor.Crosshair;
+        LuoAikalaskuri();
+        LaskeAlaspain();
+        aikalaskuri.Start();
     }
     private void LuoKentta()
     {
@@ -88,12 +99,14 @@ public class BoCrime2D : PhysicsGame
         Level.CreateLeftBorder();
         Level.CreateRightBorder();
         Camera.Follow(pelaaja1);
-        Camera.ZoomFactor = 0.01 ;
+        Camera.ZoomFactor = 0.01;
         Camera.StayInLevel = true;
         Gravity = new Vector(0, -1000);
 
 
     }
+    
+    
 
     private void LisaaTaso(Vector paikka, double leveys, double korkeus)
     {
@@ -118,6 +131,7 @@ public class BoCrime2D : PhysicsGame
         if (kohde.Tag == "tahti")
         {
             kohde.Destroy();
+            MessageDisplay.Add("Enemy killed!");
         }
        ammus.Destroy();
     }
@@ -160,6 +174,40 @@ public class BoCrime2D : PhysicsGame
 
 
     }
+    
+    void LuoAikalaskuri()
+    {
+        alaspainlaskuri = new DoubleMeter(40);
+    
+        aikalaskuri = new Timer();
+        aikalaskuri.Interval = 0.1;
+        aikalaskuri.Timeout += LaskeAlaspain;
+
+        aikanaytto = new Label();
+        aikanaytto.TextColor = Color.White;
+        aikanaytto.DecimalPlaces = 1;
+        aikanaytto.BindTo(alaspainlaskuri);
+        aikanaytto.X = Screen.Right - 100;
+        aikanaytto.Y = Screen.Top - 100;
+        Add(aikanaytto);
+    }
+
+    void LaskeAlaspain()
+    {
+        alaspainlaskuri.Value -= 0.1;
+
+        if (alaspainlaskuri.Value <= 0)
+        {
+            aikalaskuri.Stop();
+            pelaaja1.Destroy();
+            Label tekstikentta = new Label(2000.0, 250.0, "MISSION FAILED");
+            tekstikentta.Color = Color.Black;
+            tekstikentta.TextColor = Color.Red;
+            Add(tekstikentta);
+            
+        }
+    }
+    
 
     private void LisaaNappaimet()
     {
@@ -185,6 +233,7 @@ public class BoCrime2D : PhysicsGame
     }
 
     private void Liikuta(PlatformCharacter hahmo, double nopeus)
+    
     {
         hahmo.Walk(nopeus);
     }
@@ -197,8 +246,14 @@ public class BoCrime2D : PhysicsGame
     private void TormaaTahteen(PhysicsObject hahmo, PhysicsObject tahti)
     {
         kuolema.Play();
-        MessageDisplay.Add("You Died!");
         pelaaja1.Destroy();
+        aikanaytto.Destroy();
+        
+        Label tekstikentta = new Label(2000.0, 250.0, "YOU DIED");
+        tekstikentta.Color = Color.Black;
+        tekstikentta.TextColor = Color.Red;
+        tekstikentta.Font.Size = 120;
+        Add(tekstikentta);
     }
     
 }
